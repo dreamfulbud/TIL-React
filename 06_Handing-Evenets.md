@@ -24,19 +24,46 @@ function Form() {
 - `addEventListener` 호출 대신 엘리먼트가 처음 렌더링될 때 리스너를 제공
 
 ```js
-function Toggle() {
-  const [state, setState] = useState({isToggleOn:true});
+class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isToggleOn: true };
 
-  handleClick(){
-    setState(prevState =>({
-      isToggleOn: !prevState.isToggleOn
+    // 콜백에서 `this`가 작동하려면 아래와 같이 바인딩 해주어야 합니다.
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState((prevState) => ({
+      isToggleOn: !prevState.isToggleOn,
     }));
-  };
+  }
 
-  return (
-    <button onClick={handleClick}>
-      {state.isToggleOn ? "ON" : "OFF"}
-    </button>
-  );
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.isToggleOn ? "ON" : "OFF"}
+      </button>
+    );
+  }
 }
 ```
+
+- JSX 콜백 안에서 `this`의 의미에 대해 주의
+- JavaScript에서 클래스 메서드는 기본적으로 바인딩 되어 있지 않음.
+- `this.handleClick`을 바인딩 하지 않고 `onClick`에 전달하였다면, 함수가 실제 호출될때 this는 undefined
+- `onClick={this.handleClick}`과 같이 `()`를 사용하지 않고 메서드를 참조할 경우, 해당 메서드를 바인딩 해야함.
+
+## 이벤트 핸들러에 인자 전달하기
+
+```js
+// 화살표함수
+<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+
+// Function.prototype.bind
+<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
+```
+
+- 두 경우 모두 React 이벤트를 나타내는 `e` 인자가 ID 뒤에 두번째 인자로 전달.
+- 함수를 사용하면 명시적으로 인자를 전달
+- `bind`를 사용할 경우 추가 인자가 자동으로 전달
