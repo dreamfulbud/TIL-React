@@ -1,8 +1,19 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 function Square(props) {
-  const { value } = props;
-  return <StyledButton {...props}>{value}</StyledButton>;
+  const [state, setState] = useState({
+    value: null,
+  });
+
+  const handleClick = (e) => {
+    setState({ value: "X" });
+  };
+  return (
+    <StyledButton onClick={handleClick} value={state.value}>
+      {state.value}
+    </StyledButton>
+  );
 }
 
 const StyledButton = styled.button`
@@ -10,17 +21,15 @@ const StyledButton = styled.button`
   height: 60px;
   border: 5px solid royalblue;
   border-width: 5px 0 0 5px;
+  margin: -5px 0 0 -5px;
   background: none;
   color: rgba(65, 105, 225, 0.4);
   font-weight: bold;
   font-size: 40px;
   cursor: pointer;
-
-  &:first-child {
-    border-left: 0;
-  }
-  .first & {
-    border-top: 0;
-  }
+  box-sizing: border-box;
+  line-height: 1;
+  padding: 0;
+  text-align: center;
 `;
 export default Square;

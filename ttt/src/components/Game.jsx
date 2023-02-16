@@ -1,13 +1,13 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Board from "./Board";
 
 function Game() {
   const status = "X";
 
-  const handleClick = (e) => {};
   return (
     <StyledDiv>
-      <Board onClick={handleClick} />
+      <Board />
 
       <section>
         <h2>게임정보</h2>
