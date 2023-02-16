@@ -1,10 +1,9 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Square from "./Square";
 
 function Board(props) {
   const { squares, handleClick } = props;
-  console.log(props);
+
   return (
     <StyledDiv>
       {squares.map((_, i) => (
