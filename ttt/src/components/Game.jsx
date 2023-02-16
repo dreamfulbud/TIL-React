@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Board from "./Board";
+import { calculateWinner } from "./calculateWinner";
 
 function Game() {
   const [state, setState] = useState({
@@ -8,10 +9,22 @@ function Game() {
     xIsNext: true,
   });
 
-  let status = state.xIsNext ? "X" : "O";
+  let status = `Next player: ${state.xIsNext ? "X" : "O"}`;
+  const winner = calculateWinner(state.squares);
+
+  if (winner) {
+    status = `Winner: ${winner}`;
+  } else {
+    status = `Next player: ${state.xIsNext ? "X" : "O"}`;
+  }
 
   const handleClick = (i) => {
     const squares = state.squares.slice();
+
+    // 누군가 승리하거나 Square가 채워져 있다면 클릭함수 무시
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
     squares[i] = state.xIsNext ? "X" : "O";
     setState({
       squares: squares,
@@ -25,7 +38,7 @@ function Game() {
 
       <section>
         <h2>게임정보</h2>
-        <p>Next player: {status}</p>
+        <p>{status}</p>
       </section>
     </StyledDiv>
   );
