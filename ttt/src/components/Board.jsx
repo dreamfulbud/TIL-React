@@ -1,25 +1,27 @@
+import styled from "styled-components";
 import Square from "./Square";
 
 function Board(props) {
   return (
-    <div>
-      <div className="first">
-        <Square value={1} {...props} />
-        <Square value={2} {...props} />
-        <Square value={3} {...props} />
-      </div>
-      <div>
-        <Square value={4} {...props} />
-        <Square value={5} {...props} />
-        <Square value={6} {...props} />
-      </div>
-      <div>
-        <Square value={7} {...props} />
-        <Square value={8} {...props} />
-        <Square value={9} {...props} />
-      </div>
-    </div>
+    <StyledDiv>
+      <Square {...props} />
+      <Square {...props} />
+      <Square {...props} />
+      <Square {...props} />
+      <Square {...props} />
+      <Square {...props} />
+      <Square {...props} />
+      <Square {...props} />
+      <Square {...props} />
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  overflow: hidden;
+`;
 
 export default Board;
