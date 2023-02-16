@@ -5,21 +5,17 @@ import { calculateWinner } from "./calculateWinner";
 
 function Game() {
   const [state, setState] = useState({
-    squares: Array(9).fill(null),
+    history: [
+      {
+        squares: Array(9).fill(null),
+      },
+    ],
     xIsNext: true,
   });
-
-  let status = `Next player: ${state.xIsNext ? "X" : "O"}`;
-  const winner = calculateWinner(state.squares);
-
-  if (winner) {
-    status = `Winner: ${winner}`;
-  } else {
-    status = `Next player: ${state.xIsNext ? "X" : "O"}`;
-  }
-
   const handleClick = (i) => {
-    const squares = state.squares.slice();
+    const history = state.history;
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
 
     // 누군가 승리하거나 Square가 채워져 있다면 클릭함수 무시
     if (calculateWinner(squares) || squares[i]) {
@@ -27,14 +23,29 @@ function Game() {
     }
     squares[i] = state.xIsNext ? "X" : "O";
     setState({
-      squares: squares,
+      history: history.concat([
+        {
+          squares: squares,
+        },
+      ]),
       xIsNext: !state.xIsNext,
     });
   };
 
+  let status = `Next player: ${state.xIsNext ? "X" : "O"}`;
+
+  const history = state.history;
+  const current = history[history.length - 1];
+  const winner = calculateWinner(current.squares);
+  if (winner) {
+    status = `Winner: ${winner}`;
+  } else {
+    status = `Next player: ${state.xIsNext ? "X" : "O"}`;
+  }
+
   return (
     <StyledDiv>
-      <Board {...state} handleClick={handleClick} />
+      <Board squares={current.squares} handleClick={handleClick} />
 
       <section>
         <h2>게임정보</h2>
