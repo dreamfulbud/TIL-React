@@ -1,18 +1,28 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Square from "./Square";
 
 function Board(props) {
+  const [state, setState] = useState({
+    squares: Array(9).fill(null),
+  });
+
+  const handleClick = (i) => {
+    const squares = state.squares.slice();
+    squares[i] = "X";
+    setState({
+      squares: squares,
+    });
+  };
   return (
     <StyledDiv>
-      <Square {...props} />
-      <Square {...props} />
-      <Square {...props} />
-      <Square {...props} />
-      <Square {...props} />
-      <Square {...props} />
-      <Square {...props} />
-      <Square {...props} />
-      <Square {...props} />
+      {state.squares.map((_, i) => (
+        <Square
+          key={i}
+          value={state.squares[i]}
+          onClick={() => handleClick(i)}
+        />
+      ))}
     </StyledDiv>
   );
 }

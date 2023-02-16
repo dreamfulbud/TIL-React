@@ -2,18 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 function Square(props) {
-  const [state, setState] = useState({
-    value: null,
-  });
-
-  const handleClick = (e) => {
-    setState({ value: "X" });
-  };
-  return (
-    <StyledButton onClick={handleClick} value={state.value}>
-      {state.value}
-    </StyledButton>
-  );
+  return <StyledButton {...props}>{props.value}</StyledButton>;
 }
 
 const StyledButton = styled.button`
