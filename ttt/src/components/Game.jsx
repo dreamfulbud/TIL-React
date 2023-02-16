@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import Board from "./Board";
 import { calculateWinner } from "./calculateWinner";
@@ -13,8 +13,14 @@ function Game() {
     stepNumber: 0,
     xIsNext: true,
   });
+  const currentClick = (e) => {
+    document.querySelectorAll("button").forEach((button) => {
+      button.classList.remove("active");
+    });
+    e.target.classList.add("active");
+  };
 
-  const handleClick = (i) => {
+  const handleClick = (i, e) => {
     const history = state.history.slice(0, state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -23,6 +29,8 @@ function Game() {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
+    currentClick(e);
+
     squares[i] = state.xIsNext ? "X" : "O";
     setState({
       history: [...history, { squares: squares }],

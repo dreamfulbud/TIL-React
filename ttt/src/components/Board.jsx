@@ -7,7 +7,7 @@ function Board(props) {
   return (
     <StyledDiv>
       {squares.map((_, i) => (
-        <Square key={i} value={squares[i]} onClick={() => handleClick(i)} />
+        <Square key={i} value={squares[i]} onClick={(e) => handleClick(i, e)} />
       ))}
     </StyledDiv>
   );
