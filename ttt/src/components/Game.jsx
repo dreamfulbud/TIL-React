@@ -10,10 +10,12 @@ function Game() {
         squares: Array(9).fill(null),
       },
     ],
+    stepNumber: 0,
     xIsNext: true,
   });
+
   const handleClick = (i) => {
-    const history = state.history;
+    const history = state.history.slice(0, state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
 
@@ -23,20 +25,37 @@ function Game() {
     }
     squares[i] = state.xIsNext ? "X" : "O";
     setState({
-      history: history.concat([
-        {
-          squares: squares,
-        },
-      ]),
+      history: [...history, { squares: squares }],
+      stepNumber: history.length,
       xIsNext: !state.xIsNext,
+    });
+  };
+
+  const jumpTo = (step) => {
+    console.log(step, state.stepNumber);
+
+    setState({
+      history: history,
+      stepNumber: step,
+      xIsNext: step % 2 === 0,
     });
   };
 
   let status = `Next player: ${state.xIsNext ? "X" : "O"}`;
 
   const history = state.history;
-  const current = history[history.length - 1];
+  const current = history[state.stepNumber];
   const winner = calculateWinner(current.squares);
+
+  const move = history.map((step, move) => {
+    const desc = move ? `Go to move#${move}` : "Go to game start";
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{desc}</button>
+      </li>
+    );
+  });
+
   if (winner) {
     status = `Winner: ${winner}`;
   } else {
@@ -50,12 +69,14 @@ function Game() {
       <section>
         <h2>게임정보</h2>
         <p>{status}</p>
+        <ol>{move}</ol>
       </section>
     </StyledDiv>
   );
 }
 const StyledDiv = styled.div`
   display: flex;
+  align-items: flex-start;
   gap: 40px;
   section {
     border-left: 1px solid rgba(255, 255, 255, 0.15);
