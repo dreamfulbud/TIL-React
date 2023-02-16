@@ -19,5 +19,9 @@ const StyledButton = styled.button`
   line-height: 1;
   padding: 0;
   text-align: center;
+
+  &.active {
+    color: rgba(255, 255, 255, 1);
+  }
 `;
 export default Square;
