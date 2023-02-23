@@ -5,15 +5,15 @@ function Square(props) {
 }
 
 const StyledButton = styled.button`
-  width: 60px;
-  height: 60px;
+  width: 1.4em;
+  height: 1.4em;
   border: 5px solid royalblue;
   border-width: 5px 0 0 5px;
   margin: -5px 0 0 -5px;
   background: none;
   color: rgba(65, 105, 225, 0.4);
   font-weight: bold;
-  font-size: 40px;
+  font-size: 4rem;
   cursor: pointer;
   box-sizing: border-box;
   line-height: 1;
@@ -21,6 +21,11 @@ const StyledButton = styled.button`
   text-align: center;
 
   &.active {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  &.win {
+    background: rgba(65, 105, 225, 0.7);
     color: rgba(255, 255, 255, 1);
   }
 `;
